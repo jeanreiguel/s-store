@@ -8,15 +8,15 @@ import br.com.senai.model.ProdutoModel;
 
 public class ProdutoController {
 
-	private Scanner sc;
+	private Scanner dgt;
 
 	public ProdutoController() {
-		sc = new Scanner(System.in);
+		dgt = new Scanner(System.in);
 	}
 
 	public int opcao() {
 		System.out.print("> ");
-		return sc.nextInt();
+		return dgt.nextInt();
 	}
 	
 	public void menu() {
@@ -33,25 +33,75 @@ public class ProdutoController {
 	public ProdutoModel cadastrarProduto() {
 		var produtoModel = new ProdutoModel();
 
+
 		System.out.println("\n--- CADASTRAR ITENS ---\n");
 		System.out.print("Produto: ");
-		produtoModel.setNomdeDoProduto(sc.next());
+		produtoModel.setNomdeDoProduto(dgt.next());
 		System.out.print("Preço: ");
-		produtoModel.setPrecoDoProduto(sc.nextDouble());
+		produtoModel.setPrecoDoProduto(dgt.nextDouble());
 		System.out.print("Quantidade:");
-		produtoModel.setQuantidadeDeProduto(sc.nextInt());
+		produtoModel.setQuantidadeDeProduto(dgt.nextInt());
 		produtoModel.setSaldoEmEstoque(produtoModel.getQuantidadeDeProduto() * produtoModel.getPrecoDoProduto());
 		
 		return produtoModel;
 	}
 	
-	public void consultarProdutos(List<ProdutoModel> produtos) {
+	public List<ProdutoModel> consultarProdutos(List<ProdutoModel> produtos) {
 		System.out.println("\n----- PRODUTOS CADASTRASDOS -----\n");
-		System.out.printf("| %10s | %8s | %4s | %9s |\n","Produto","Preço","Quantidade","R$ total");
-		for (ProdutoModel produtoModel : produtos) {
-			System.out.println(produtoModel);
+		System.out.printf("| %10s | %8s | %4s | %9s |\n","Produto","Preço","Qtd","R$ total");
+		//for (ProdutoModel produtoModel : produtos) {
+		//	System.out.printf("| %10s | %8s | %4s | %9s |\n", produtoModel.getNomdeDoProduto(), 
+		//			produtoModel.getPrecoDoProduto(), produtoModel.getQuantidadeDeProduto(), produtoModel.getSaldoEmEstoque());
+		//	
+		//}
+		produtos.forEach(produto -> {
+			System.out.printf("| %10s | %8s | %4s | %9s |\n",
+					produto.getNomdeDoProduto(),
+					produto.getPrecoDoProduto(),
+					produto.getQuantidadeDeProduto(),
+					produto.getSaldoEmEstoque());
+		});
+		return produtos;
+	}
+	
+	public ProdutoModel editarProduto(List<ProdutoModel> ) {
+		var produto = new ProdutoModel();
+		
+		System.out.println("--------- EDITAR DADOS DE PRODUTOS ----------");
+		System.out.println("Informe o ID do produto: ");
+		int id = dgt.nextInt();
+		
+		System.out.println("Informe o camzxxpo que deseja editar: ");
+		System.out.println("1) Nome do produto");
+		System.out.println("2) Preço unitário");
+		System.out.println("3) Quantidade");
+		int index= dgt.nextInt();
+		
+		switch (index) {
+		case 1:
+			System.out.println("Qual o nome do produto? ");
+			produto.setNomdeDoProduto(dgt.next());
+			produto.setPrecoDoProduto(produtos.get(id).getPrecoDoProduto());
+			produto.setQuantidadeDeProduto(produtos.get(id).getQuantidadeDeProduto());
+			produto.setSaldoEmEstoque(produtos.get(id).getSaldoEmEstoque());
+			produtos.set(id, produto);
+			break;
+		case 2:
+			System.out.println("Qual o preço do produto? ");
+			produto.setNomdeDoProduto(produtos.get(id).getNomdeDoProduto());
+			produto.setPrecoDoProduto(dgt.nextDouble());
+			produto.setQuantidadeDeProduto(produtos.get(id).getQuantidadeDeProduto());
+			produto.setSaldoEmEstoque(produtos.get(id).getSaldoEmEstoque());
+			produtos.set(id, produto);
+			break;
+		case 3:
+			break;
+		default:
 			
+			break;
 		}
+		
+		return produto;
 	}
 }
 
