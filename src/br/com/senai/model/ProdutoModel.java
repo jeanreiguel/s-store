@@ -20,11 +20,11 @@ public class ProdutoModel {
 	}
 
 	// METODOS ACE/MOD
-	public String getNomdeDoProduto() {
+	public String getNomeDoProduto() {
 		return nomdeDoProduto;
 	}
 
-	public void setNomdeDoProduto(String nomdeDoProduto) {
+	public void setNomeDoProduto(String nomdeDoProduto) {
 		this.nomdeDoProduto = nomdeDoProduto;
 	}
 

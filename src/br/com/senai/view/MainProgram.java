@@ -9,7 +9,7 @@ import br.com.senai.model.ProdutoModel;
 public class MainProgram {
 	public static void main(String[] args) {
 		List<ProdutoModel> produtos = new ArrayList<ProdutoModel>();
-
+		List<ProdutoModel> carrinho = new ArrayList<ProdutoModel>();
 		ProdutoController produtoController = new ProdutoController();
 
 		boolean sair = false;
@@ -27,6 +27,15 @@ public class MainProgram {
 				break;
 			case 3:
 				produtoController.editarProduto(produtos);
+				break;
+			case 4:
+				produtoController.removerProdutos(produtos);
+				break;
+			case 5:
+				carrinho.add(produtoController.adicionarCarrinho(produtos, carrinho));
+				break;
+			case 6:
+				produtoController.exibirCarrinho(carrinho);
 				break;
 			case 9:
 				sair = true;
