@@ -15,7 +15,7 @@ public class EditarProduto {
 			System.out.println("Não há produtos para serem editados");
 			return null;
 		}
-		ListaProduto.consultarProdutos(produtos);
+		ListaProduto.consultarProdutos();
 		System.out.println("--------- EDITAR DADOS DE PRODUTOS ----------");
 		System.out.println("Informe o ID do produto: ");
 		int id = dgt.nextInt() - 1;

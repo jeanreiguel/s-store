@@ -21,7 +21,7 @@ public class AdicionarCarrinho {
 			System.out.println("Não há produtos. ");
 			return null;
 		}
-		ListaProduto.consultarProdutos(produtos);
+		ListaProduto.consultarProdutos();
 		
 		System.out.println("--- ADICIONAR ITEM NO CARRINHO ---");
 		System.out.println("Informar o ID do produto: ");

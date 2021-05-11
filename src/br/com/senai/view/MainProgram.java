@@ -14,7 +14,6 @@ public class MainProgram {
 	public static void main(String[] args) {
 		List<ProdutoModel> produtos = new ArrayList<ProdutoModel>();
 		List<CarrinhoModel> itensNoCarrinho = new ArrayList<CarrinhoModel>();
-		
 		Controller Controller = new Controller();
 		ListaCarrinho listaCarrinho = new ListaCarrinho();
 		AdicionarCarrinho AdicionarCarrinho = new AdicionarCarrinho();
@@ -34,10 +33,11 @@ public class MainProgram {
 		
 			switch (opc) {
 			case 1:
-				produtos.add(CadastrarProduto.cadastrarProduto());
+				CadastrarProduto.cadastrarProduto();
 				break;
 			case 2:
-				ListaProduto.consultarProdutos(produtos);
+				//ListaProduto.consultarProdutos(produtos);
+				ListaProduto.consultarProdutos();
 				break;
 			case 3:
 				EditarProduto.editarProduto(produtos);
@@ -45,7 +45,7 @@ public class MainProgram {
 			case 4:
 				DeletarProduto.removerProdutos(produtos);
 				break;
-			case 5:
+ 			case 5:
 				itensNoCarrinho.add(AdicionarCarrinho.cadastrarItemCarrinho(produtos));
 				break;
 			case 6:
