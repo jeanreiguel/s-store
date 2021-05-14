@@ -19,10 +19,17 @@ public class ListaProduto {
 		PreparedStatement preparedStatement;
 		
 		try {
-			preparedStatement = connection.prepareStatement("SELECT * FROM produto");
+			String sql = "SELECT * FROM produto";
+			preparedStatement = connection.prepareStatement(sql);
 			ResultSet resultset = preparedStatement.executeQuery();
+			
 			System.out.println("\n----- PRODUTOS CADASTRASDOS -----\n");
 			System.out.printf("| %2s | %15s | %8s | %4s | %9s2f |\n", "ID", "Produto", "Preço", "Qtd", "R$ total");
+			if(!resultset.next()) {
+				System.out.println("Não há produtos cadastrados");
+				return null;
+			}
+			resultset.previous();
 			while(resultset.next()) {
 				System.out.printf("| %2s | %15s | %8s | %4s | %9s2f |\n",
 								   resultset.getInt("codigo"),
