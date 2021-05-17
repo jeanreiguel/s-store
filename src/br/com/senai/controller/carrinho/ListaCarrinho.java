@@ -1,44 +1,87 @@
 package br.com.senai.controller.carrinho;
 
-import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
-import br.com.senai.model.CarrinhoModel;
-import br.com.senai.model.ProdutoModel;
+import br.com.dal.DatabaseConnection;
 
 public class ListaCarrinho {
-	public List<CarrinhoModel> listarItensNoCarrinho(List<CarrinhoModel> itensNoCarrinho) {
-		System.out.println("--- ITENS NO CARRINHO ---");
-		System.out.printf("| %2s | %10s | %8s | %4s | %9s |\n", "ID", "Produto", "Preço", "Qtd", "R$ total");
-
-		if (itensNoCarrinho.size() <= 0) {
-			System.out.println("Não há itens no carrinho");
+	
+	private Connection connection;
+	private PreparedStatement preparedStatement;
+	public ListaCarrinho() {
+		connection = DatabaseConnection.getInstance().getConnection();
+	}
+	public ResultSet listarItensNoCarrinho(int cliente) {
+	
+		try {
+			String sql = "SELECT * FROM carrinho WHERE CLIENTE = ?";
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, cliente);
+			ResultSet resultset = preparedStatement.executeQuery();
+			if(!resultset.next()) {
+				System.out.println("Não há itens no carrinho.");
+				return null;
+			}
+			System.out.println("--- ITENS NO CARRINHO ---");
+			System.out.printf("| %8s | %10s | %10s | %8s | %4s |\n", "ID", "Produto", "Preço", "Qtd", "R$ total");
+			
+			resultset.previous();
+			
+			while(resultset.next()) {
+				System.out.printf("| %8s | %10s | %10s | %8s | %4s |\n",
+				resultset.getInt("ID"),
+				resultset.getString("PRODUTO"),
+				resultset.getInt("QUANTIDADE"),
+				resultset.getDouble("PRECO_UNITARIO"),
+				resultset.getDouble("TOTAL_ITEM"));
+			}
+			return resultset;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
-		itensNoCarrinho.forEach(item -> {
-			System.out.printf("| %2s | %10s | R$%6.2f | %4s | R$%7.2f |\n", item.getIdProduto() + 1,
-					item.getProduto().getNomeDoProduto(), item.getProduto().getPrecoDoProduto(),
-					item.getQuantidadeItens(), item.getValorTotalPorItem());
-		});
-
-		/*
-		 * double valorTotalDoCarrinho = itensNoCarrinho.stream().
-		 * mapToDouble(CarrinhoModel::getValorTotalPorItem).sum();
-		 */
-		double valorTotalDoCarrinho = itensNoCarrinho.stream().mapToDouble(item -> item.getValorTotalPorItem()).sum();
-
-		System.out.println("\nValor total: R$ " + valorTotalDoCarrinho);
-
-		return itensNoCarrinho;
 	}
-	public void gerarCupom(List<CarrinhoModel> itensNoCarrinho, String cliente) {
-		var ListaCarrinho = new ListaCarrinho();
+	
+	 public void gerarCupom(int cliente) {
+	 var ListaCarrinho = new ListaCarrinho();
+	 try {
+		String sql = "SELECT * FROM carrinho WHERE CLIENTE = ?";
+		preparedStatement = connection.prepareStatement(sql);
+		preparedStatement.setInt(1, cliente);
+		ResultSet resultset = preparedStatement.executeQuery();
 		
-		if(itensNoCarrinho.size() <= 0) {
-			System.out.println("Lista vazia.");
+			if(!resultset.next()) {
+				System.out.println("Não há itens no carrinho.");
+				return;
+			}
+		System.out.println("--- ITENS NO CARRINHO ---");
+		System.out.printf("| %8s | %10s | %10s | %8s | %4s |\n", "ID", "Produto", "Preço", "Qtd", "R$ total");
+		
+		resultset.previous();
+		double totalcompra = 0;
+			while(resultset.next()) {
+				System.out.printf("| %8s | %10s | %10s | %8s | %4s |\n",
+				resultset.getInt("ID"),
+				resultset.getString("PRODUTO"),
+				resultset.getInt("QUANTIDADE"),
+				resultset.getDouble("PRECO_UNITARIO"),
+				resultset.getDouble("TOTAL_ITEM"));
+				totalcompra += resultset.getDouble("TOTAL_ITEM");
+			}
+		 sql = "SELECT nome FROM clientes WHERE ID = ?";
+		preparedStatement = connection.prepareStatement(sql);
+		preparedStatement.setInt(1, cliente);
+		resultset = preparedStatement.executeQuery();
+		resultset.next();
+		 System.out.println("\nCliente: " + resultset.getString("nome") + "    TOTAL = " + totalcompra); 
+		} catch (Exception e) {
+			e.printStackTrace();
 			return;
 		}
-		ListaCarrinho.listarItensNoCarrinho(itensNoCarrinho);
-		System.out.println("Cliente: " + cliente);
-	}
+	
+	 }
 	
 }
