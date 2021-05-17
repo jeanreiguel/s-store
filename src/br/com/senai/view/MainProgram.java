@@ -1,19 +1,13 @@
 package br.com.senai.view;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import br.com.senai.controller.Controller;
 import br.com.senai.controller.carrinho.*;
 import br.com.senai.controller.produto.*;
 import br.com.senai.controller.cliente.*;
-import br.com.senai.model.CarrinhoModel;
-import br.com.senai.model.ProdutoModel;
 
 public class MainProgram {
 	public static void main(String[] args) {
-		List<ProdutoModel> produtos = new ArrayList<ProdutoModel>();
-		List<CarrinhoModel> itensNoCarrinho = new ArrayList<CarrinhoModel>();
 		Controller Controller = new Controller();
 		ListaCarrinho listaCarrinho = new ListaCarrinho();
 		AdicionarCarrinho AdicionarCarrinho = new AdicionarCarrinho();
@@ -25,7 +19,7 @@ public class MainProgram {
 		
 		boolean sair = false;
 		
-		String cliente = DefinirCliente.definirCliente();
+		int cliente = DefinirCliente.definirCliente();
 		
 		do {
 			Controller.menu();
@@ -36,23 +30,22 @@ public class MainProgram {
 				CadastrarProduto.cadastrarProduto();
 				break;
 			case 2:
-				//ListaProduto.consultarProdutos(produtos);
 				ListaProduto.consultarProdutos();
 				break;
 			case 3:
-				EditarProduto.editarProduto(produtos);
+				EditarProduto.editarProduto();
 				break;
 			case 4:
-				DeletarProduto.removerProdutos(produtos);
+				DeletarProduto.removerProdutos();
 				break;
  			case 5:
-				itensNoCarrinho.add(AdicionarCarrinho.cadastrarItemCarrinho(produtos));
+				AdicionarCarrinho.cadastrarItemCarrinho(cliente);
 				break;
 			case 6:
-				listaCarrinho.listarItensNoCarrinho(itensNoCarrinho);
+				listaCarrinho.listarItensNoCarrinho(cliente);
 				break;
 			case 7:
-				listaCarrinho.gerarCupom(itensNoCarrinho,cliente);
+				listaCarrinho.gerarCupom(cliente);
 				break;
 			case 9:
 				sair = true;
