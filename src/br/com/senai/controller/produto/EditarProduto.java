@@ -3,7 +3,6 @@ package br.com.senai.controller.produto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.List;
 import java.util.Scanner;
 
 import br.com.dal.DatabaseConnection;
@@ -18,13 +17,13 @@ public class EditarProduto {
 	public EditarProduto() {
 		connection = DatabaseConnection.getInstance().getConnection();
 	}
-	public ProdutoModel editarProduto(List<ProdutoModel> produtos) {
+	public ProdutoModel editarProduto() {
 		PreparedStatement preparedStatement;
 		
 		produto = new ProdutoModel();
 		listaProduto = new ListaProduto();
 		
-		int idDoProduto, indexDoCampo;
+		int idDoProduto;
 		
 		listaProduto.consultarProdutos();
 		
