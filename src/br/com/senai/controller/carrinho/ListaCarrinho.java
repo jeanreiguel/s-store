@@ -47,36 +47,24 @@ public class ListaCarrinho {
 	
 	 public void gerarCupom(int cliente) {
 	 var ListaCarrinho = new ListaCarrinho();
-	 try {
-		String sql = "SELECT * FROM carrinho WHERE CLIENTE = ?";
-		preparedStatement = connection.prepareStatement(sql);
-		preparedStatement.setInt(1, cliente);
-		ResultSet resultset = preparedStatement.executeQuery();
-		
-			if(!resultset.next()) {
-				System.out.println("Não há itens no carrinho.");
-				return;
-			}
-		System.out.println("--- ITENS NO CARRINHO ---");
-		System.out.printf("| %8s | %10s | %10s | %8s | %4s |\n", "ID", "Produto", "Preço", "Qtd", "R$ total");
-		
-		resultset.previous();
-		double totalcompra = 0;
-			while(resultset.next()) {
-				System.out.printf("| %8s | %10s | %10s | %8s | %4s |\n",
-				resultset.getInt("ID"),
-				resultset.getString("PRODUTO"),
-				resultset.getInt("QUANTIDADE"),
-				resultset.getDouble("PRECO_UNITARIO"),
-				resultset.getDouble("TOTAL_ITEM"));
-				totalcompra += resultset.getDouble("TOTAL_ITEM");
-			}
-		 sql = "SELECT nome FROM clientes WHERE ID = ?";
-		preparedStatement = connection.prepareStatement(sql);
-		preparedStatement.setInt(1, cliente);
-		resultset = preparedStatement.executeQuery();
-		resultset.next();
-		 System.out.println("\nCliente: " + resultset.getString("nome") + "    TOTAL = " + totalcompra); 
+	 
+		 try {
+			double totalcompra = 0;
+			String sql = "SELECT nome FROM clientes WHERE ID = ?";
+			
+			listarItensNoCarrinho(cliente);
+			
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, cliente);
+			ResultSet resultset = preparedStatement.executeQuery();
+			resultset.next();
+			 System.out.println("\nCliente: " + resultset.getString("nome") + "    TOTAL = " + totalcompra); 
+			 
+			sql = "DELETE * FROM carrinho WHERE CLIENTE = ?";
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, cliente);
+			preparedStatement.execute();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return;
