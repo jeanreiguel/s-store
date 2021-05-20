@@ -5,21 +5,27 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Scanner;
 
-import br.com.dal.DatabaseConnection;
+import br.com.dao.DatabaseConnection;
 
-public class DefinirCliente {
+public class CadastrarCliente {
 	private Scanner dgt = new Scanner(System.in);
 	private PreparedStatement preparedStatement;
 	private Connection connection;
-	
-	public DefinirCliente() {
-		connection = DatabaseConnection.getInstance().getConnection(); 
+
+	public CadastrarCliente() {
+		connection = DatabaseConnection.getInstance().getConnection();
 	}
-	public int definirCliente() {
+
+	public int CadastrarCliente() {
 		String nome;
-		System.out.println("Informe o nome do cliente");
+		System.out.println("--- CADASTRAR CLIENTE ---");
+		System.out.println("Informe seu nome");
 		nome = dgt.next();
-		
+
+		if (verificarCliente(nome)) {
+			System.out.println("\nCliente já existente..\n");
+			CadastrarCliente();
+		}
 		try {
 			String sql = "INSERT INTO clientes (nome) VALUES (?)";
 			preparedStatement = connection.prepareStatement(sql);
@@ -31,11 +37,30 @@ public class DefinirCliente {
 			ResultSet resultset = preparedStatement.executeQuery();
 			resultset.next();
 			int codigocliente = resultset.getInt("ID");
+			System.out.println("Cadastro realizado!!");
 			return codigocliente;
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+
+	public boolean verificarCliente(String nome) {
+
+		try {
+			String sql = "SELECT nome FROM clientes";
+			preparedStatement = connection.prepareStatement(sql);
+			ResultSet resultset = preparedStatement.executeQuery();
+			while (resultset.next()) {
+				if (nome.equals(resultset.getString("nome"))) {
+					return true;
+				}
+			}
+			return false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return true;
+		}
 	}
 }
