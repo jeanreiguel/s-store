@@ -30,9 +30,15 @@ public class Controller {
 		System.out.println("4) Remover item");
 		System.out.println("5) Adicionar no Carrinho");
 		System.out.println("6) Exibir carrinho");
-		System.out.println("7) Gerar Cupom");
+		System.out.println("7) Excluir carrinho");
+		System.out.println("8) Gerar Cupom");
 		System.out.println("9) Sair do sistema");
 		System.out.println("--------------------");
+	}
+	public void menuCliente() {
+		System.out.println("\n--- LOGIN ---\n");
+		System.out.println("1) Entrar na conta");
+		System.out.println("2) Cadastrar Conta");
 	}
 
 }

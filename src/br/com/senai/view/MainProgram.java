@@ -1,6 +1,5 @@
 package br.com.senai.view;
 
-
 import br.com.senai.controller.Controller;
 import br.com.senai.controller.carrinho.*;
 import br.com.senai.controller.produto.*;
@@ -11,20 +10,34 @@ public class MainProgram {
 		Controller Controller = new Controller();
 		ListaCarrinho listaCarrinho = new ListaCarrinho();
 		AdicionarCarrinho AdicionarCarrinho = new AdicionarCarrinho();
+		ExcluirCarrinho ExcluirCarrinho = new ExcluirCarrinho();
 		CadastrarProduto CadastrarProduto = new CadastrarProduto();
 		ListaProduto ListaProduto = new ListaProduto();
 		EditarProduto EditarProduto = new EditarProduto();
 		DeletarProduto DeletarProduto = new DeletarProduto();
 		DefinirCliente DefinirCliente = new DefinirCliente();
-		
+		CadastrarCliente CadastrarCliente = new CadastrarCliente();
+		int cliente = 0;
 		boolean sair = false;
+		do {
+			Controller.menuCliente();
+			int opc = Controller.opcao();
+			 
+			 
+			 switch (opc) {
+			 case 1:
+				 cliente = DefinirCliente.SelecionarCliente();
+				 break;
+			 case 2:
+				 cliente = CadastrarCliente.CadastrarCliente();
+				 break;
+			 }
 		
-		int cliente = DefinirCliente.definirCliente();
 		
 		do {
 			Controller.menu();
-			int opc = Controller.opcao();
-		
+			opc = Controller.opcao();
+
 			switch (opc) {
 			case 1:
 				CadastrarProduto.cadastrarProduto();
@@ -38,13 +51,16 @@ public class MainProgram {
 			case 4:
 				DeletarProduto.removerProdutos();
 				break;
- 			case 5:
+			case 5:
 				AdicionarCarrinho.cadastrarItemCarrinho(cliente);
 				break;
 			case 6:
 				listaCarrinho.listarItensNoCarrinho(cliente);
 				break;
 			case 7:
+				ExcluirCarrinho.excluirItensCarrinho(cliente);
+				break;
+			case 8:
 				listaCarrinho.gerarCupom(cliente);
 				break;
 			case 9:
@@ -56,7 +72,8 @@ public class MainProgram {
 				break;
 			}
 		} while (!sair);
-
-		System.out.println("Sistema encerrado!!!");
+		cliente = 0;
+		System.out.println("Volte Sempre!!!");
+		}while(cliente == 0);
 	}
 }
