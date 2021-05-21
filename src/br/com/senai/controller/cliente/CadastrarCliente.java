@@ -19,12 +19,12 @@ public class CadastrarCliente {
 	public int CadastrarCliente() {
 		String nome;
 		System.out.println("--- CADASTRAR CLIENTE ---");
-		System.out.println("Informe seu nome");
+		System.out.println("Informe seu nome: ");
 		nome = dgt.next();
 
 		if (verificarCliente(nome)) {
 			System.out.println("\nCliente já existente..\n");
-			CadastrarCliente();
+			return 0;
 		}
 		try {
 			String sql = "INSERT INTO clientes (nome) VALUES (?)";

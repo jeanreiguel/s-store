@@ -21,7 +21,7 @@ public class AdicionarCarrinho {
 	}
 
 	public void cadastrarItemCarrinho(int cliente) {
-
+		ExcluirCarrinho ExcluirCarrinho = new ExcluirCarrinho();
 		ListaProduto ListaProduto = new ListaProduto();
 		ProdutoModel produto = new ProdutoModel();
 		DeletarProduto DeletarProduto = new DeletarProduto();
@@ -48,6 +48,28 @@ public class AdicionarCarrinho {
 				System.out.println("Quantidade em estoque insuficiente.");
 				return;
 			}
+			if (ExcluirCarrinho.VerificaCarrinho(cliente, idDoProduto)) {
+				try {
+					sql = "SELECT * FROM carrinho WHERE ID = ?";
+					preparedStatement = connection.prepareStatement(sql);
+					preparedStatement.setInt(1, idDoProduto);
+					resultset = preparedStatement.executeQuery();
+					resultset.next();
+					
+					int quantidadeatual = resultset.getInt("QUANTIDADE") + produto.getQuantidadeDeProduto();
+					double saldoatual = quantidadeatual * resultset.getDouble("PRECO_UNITARIO");
+					sql = "UPDATE carrinho SET QUANTIDADE = ?, TOTAL_ITEM = ? WHERE CLIENTE = ? && ID = ?";
+					preparedStatement = connection.prepareStatement(sql);
+					preparedStatement.setInt(1, quantidadeatual);
+					preparedStatement.setDouble(2, saldoatual);
+					preparedStatement.setInt(3, cliente);
+					preparedStatement.setInt(4, idDoProduto);
+					preparedStatement.execute();
+					return;
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 			produto.setNomeDoProduto(resultset.getString("nomeDoProduto"));
 			produto.setPrecoDoProduto(resultset.getDouble("precoDoProduo"));
 			produto.setSaldoEmEstoque(resultset.getDouble("saldoEmEstoque"));
@@ -57,7 +79,7 @@ public class AdicionarCarrinho {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		
 		try {
 			String sql = "INSERT INTO carrinho (CLIENTE, ID, PRODUTO, QUANTIDADE, PRECO_UNITARIO, TOTAL_ITEM)"
 					+ "VALUES (?, ?, ?, ?, ?, ?)";
@@ -95,6 +117,6 @@ public class AdicionarCarrinho {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
+	
 }

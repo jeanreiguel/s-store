@@ -20,11 +20,12 @@ public class MainProgram {
 		int cliente = 0;
 		boolean sair = false;
 		do {
+			 cliente = 0;
 			Controller.menuCliente();
-			int opc = Controller.opcao();
+			int opcclient = Controller.opcao();
+		
 			 
-			 
-			 switch (opc) {
+			 switch (opcclient) {
 			 case 1:
 				 cliente = DefinirCliente.SelecionarCliente();
 				 break;
@@ -32,11 +33,11 @@ public class MainProgram {
 				 cliente = CadastrarCliente.CadastrarCliente();
 				 break;
 			 }
-		
+		}while(cliente == 0);
 		
 		do {
 			Controller.menu();
-			opc = Controller.opcao();
+			int opc = Controller.opcao();
 
 			switch (opc) {
 			case 1:
@@ -61,9 +62,12 @@ public class MainProgram {
 				ExcluirCarrinho.excluirItensCarrinho(cliente);
 				break;
 			case 8:
-				listaCarrinho.gerarCupom(cliente);
+				ExcluirCarrinho.AlterarQuantidade(cliente);
 				break;
 			case 9:
+				listaCarrinho.gerarCupom(cliente);
+				break;
+			case 10:
 				sair = true;
 				break;
 
@@ -72,8 +76,8 @@ public class MainProgram {
 				break;
 			}
 		} while (!sair);
-		cliente = 0;
+		
 		System.out.println("Volte Sempre!!!");
-		}while(cliente == 0);
+		Controller.menuCliente();
 	}
 }

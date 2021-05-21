@@ -32,9 +32,12 @@ public class ListaCarrinho {
 			resultset.previous();
 
 			while (resultset.next()) {
-				System.out.printf("| %8s | %10s | %10s | %8s | %4.2f |\n", resultset.getInt("ID"),
-						resultset.getString("PRODUTO"), resultset.getInt("QUANTIDADE"),
-						resultset.getDouble("PRECO_UNITARIO"), resultset.getDouble("TOTAL_ITEM"));
+				System.out.printf("| %8s | %10s | %10s | %8s | %4.2f |\n", 
+						resultset.getInt("ID"),
+						resultset.getString("PRODUTO"), 
+						resultset.getDouble("PRECO_UNITARIO"),
+						resultset.getInt("QUANTIDADE"),
+						resultset.getDouble("TOTAL_ITEM"));
 			}
 			return resultset;
 

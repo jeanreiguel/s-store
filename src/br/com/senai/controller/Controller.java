@@ -31,8 +31,9 @@ public class Controller {
 		System.out.println("5) Adicionar no Carrinho");
 		System.out.println("6) Exibir carrinho");
 		System.out.println("7) Excluir carrinho");
-		System.out.println("8) Gerar Cupom");
-		System.out.println("9) Sair do sistema");
+		System.out.println("8) Alterar quantidade");
+		System.out.println("9) Gerar Cupom");
+		System.out.println("10) Sair do sistema");
 		System.out.println("--------------------");
 	}
 	public void menuCliente() {
